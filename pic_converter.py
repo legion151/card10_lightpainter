@@ -2,7 +2,7 @@
 
 import sys
 from PIL import Image
-import json
+import ujson
 
 
 def getPxs(filenameIn):
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     pxs = getPxs(filenameIn)
     data = {"name": name, "pxs": pxs}
     with open("{}.json".format(filenameOut), "w") as fo:
-        fo.write(json.dumps(data, indent=4))
+        fo.write(ujson.dumps(data))
 
 
 
