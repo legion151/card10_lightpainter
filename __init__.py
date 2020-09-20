@@ -17,24 +17,29 @@ BRIGHTNESS=1
 def clr(clr):
     return color.Color(clr[0], clr[1], clr[2])
 
-picdat = []
-with open("./apps/lightpainter/anims/hello.json") as f:
-    dat = ujson.loads(f.read())
-    picdat = dat['pxs']
+def main():
+    picdat = []
+    with open("./apps/lightpainter/anims/hello.json") as f:
+        dat = ujson.loads(f.read())
+        picdat = dat['pxs']
+    
+    with display.open() as d:
+      d.backlight(0)
+    leds.dim_top(BRIGHTNESS)
+    
+    while True:
+      x = 0
+      while not (buttons.read(buttons.TOP_RIGHT) | buttons.read(buttons.BOTTOM_RIGHT) | buttons.read(buttons.BOTTOM_LEFT)):
+    
+        for y in range(11):
+          leds.prep(10-y, clr(picdat[x][y]))
+    
+        leds.update()
+        utime.sleep(DELAY)
+        x = (x + 1)%len(picdat)
+      leds.clear()
+      leds.update()
 
-with display.open() as d:
-  d.backlight(0)
-leds.dim_top(BRIGHTNESS)
 
-while True:
-  x = 0
-  while not (buttons.read(buttons.TOP_RIGHT) | buttons.read(buttons.BOTTOM_RIGHT) | buttons.read(buttons.BOTTOM_LEFT)):
-
-    for y in range(11):
-      leds.prep(10-y, clr(picdat[x][y]))
-
-    leds.update()
-    utime.sleep(DELAY)
-    x = (x + 1)%len(picdat)
-  leds.clear()
-  leds.update()
+if __name__ == "__main__":
+    main()
