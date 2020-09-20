@@ -21,17 +21,15 @@ def getPxs(filenameIn):
         
 
 if __name__ == "__main__": 
-    if(len(sys.argv) < 4):
-        print("Usage: python3 {} pathToImageFile pathToSave name".format(sys.argv[0]))
+    if(len(sys.argv) < 3):
+        print("Usage: python3 {} pathToImageFile name".format(sys.argv[0]))
         exit()
     filenameIn = sys.argv[1]
     filenameOut = sys.argv[2]
-    name = sys.argv[3]
 
     pxs = getPxs(filenameIn)
-    data = {"name": name, "pxs": pxs}
     with open("{}.json".format(filenameOut), "w") as fo:
-        fo.write(ujson.dumps(data))
+        fo.write(ujson.dumps(pxs))
 
 
 

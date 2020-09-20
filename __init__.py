@@ -36,10 +36,8 @@ def main():
 #        d.update()
 
     with open("./apps/lightpainter/anims/hello.json") as f:
-        dat = ujson.loads(f.read())
-        picdat = dat['pxs']
+        picdat = ujson.loads(f.read())
         anim(picdat)
-
 
 if __name__ == "__main__":
     main()
