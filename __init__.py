@@ -6,7 +6,7 @@ import buttons
 import ujson
 import os
 
-DELAY = 0.002 # time in seconds
+DELAY = 0.001 # time in seconds
 BRIGHTNESS=1
 
 
