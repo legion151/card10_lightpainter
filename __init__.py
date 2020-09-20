@@ -10,35 +10,35 @@ DELAY = 0.001 # time in seconds
 BRIGHTNESS=1
 
 
-#with display.open() as d:
-#  d.print(str(os.listdir("./apps/lightpainter/anims")))
-#  d.update()
 
 def clr(clr):
     return color.Color(clr[0], clr[1], clr[2])
 
+def anim(picdat):
+    with display.open() as d:
+        d.backlight(0)
+    leds.dim_top(BRIGHTNESS)
+
+    while not (buttons.read(buttons.TOP_RIGHT) | buttons.read(buttons.BOTTOM_RIGHT) | buttons.read(buttons.BOTTOM_LEFT)): 
+        for x in range(len(picdat)):
+            for y in range(11):
+                leds.prep(10-y, clr(picdat[x][y]))
+            leds.update()
+            utime.sleep(DELAY)
+    leds.clear()
+    leds.update()
+    return 
+
 def main():
-    picdat = []
+    
+#    with display.open() as d:
+#        d.print(str(os.listdir("./apps/lightpainter/anims")))
+#        d.update()
+
     with open("./apps/lightpainter/anims/hello.json") as f:
         dat = ujson.loads(f.read())
         picdat = dat['pxs']
-    
-    with display.open() as d:
-      d.backlight(0)
-    leds.dim_top(BRIGHTNESS)
-    
-    while True:
-      x = 0
-      while not (buttons.read(buttons.TOP_RIGHT) | buttons.read(buttons.BOTTOM_RIGHT) | buttons.read(buttons.BOTTOM_LEFT)):
-    
-        for y in range(11):
-          leds.prep(10-y, clr(picdat[x][y]))
-    
-        leds.update()
-        utime.sleep(DELAY)
-        x = (x + 1)%len(picdat)
-      leds.clear()
-      leds.update()
+        anim(picdat)
 
 
 if __name__ == "__main__":
