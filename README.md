@@ -24,3 +24,6 @@ Note that the value to switch direction is not near 0 (horizontal), just to be s
 The sensor is read after the countdown. You should be safe if you start and bring card10 at the right position during countdown.
 
 
+Example:
+(![fairy](fairy_photo.png?raw=true "Fairy")
+
