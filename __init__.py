@@ -58,7 +58,7 @@ def anim(fn):
 def showOrientationMsg():
     with display.open() as d:
         d.clear()
-        d.backlight(1)
+        d.backlight(20)
         d.print("Checking", posx=15, posy=15, font=2)
         d.print("orientation...", posx=15, posy=30, font=2)
         d.update()
@@ -66,7 +66,7 @@ def showOrientationMsg():
 def showCountDownNbr(i):
     with display.open() as d:
         d.clear()
-        d.backlight(1)
+        d.backlight(20)
         d.print(str(i), posx=65, posy=25, font=4)
         d.update()
 
@@ -80,11 +80,24 @@ def countDown():
 def showAnimEntry(fn):
     with display.open() as d:
         d.clear()
-        d.backlight(1)
+        d.backlight(20)
         d.print("Lightpainter", font=2)
         d.print("{}".format(fn[0:fn.rfind(".")]), posy=23, font=2)
-        d.print("<         >", posy=52, font=3)
+        addPreview(d,fn)
+        d.print("<         >", posy=55, font=3)
         d.update()
+
+def addPreview(disp, fn):
+    yOff = 40
+    with open("./apps/lightpainter/anims/{}".format(fn)) as f:
+        picdat = ujson.loads(f.read())
+        for x in range(len(picdat)):
+            if(x>159):
+                return
+            for y in range(11):
+                disp.pixel(x,y+yOff,col=picdat[x][y])
+
+
 
 def main():
     fileList = os.listdir("./apps/lightpainter/anims")
