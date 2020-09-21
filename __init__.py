@@ -5,10 +5,28 @@ import display
 import buttons
 import ujson
 import os
+import bhi160
 
 DELAY = 0.001 # time in seconds
 BRIGHTNESS=1
 
+def checkOrientation():
+    showOrientationMsg()
+    result = False
+    bhi = bhi160.BHI160Orientation()
+    #give sensor some time 
+    utime.sleep(1)
+    data = bhi.read()
+    if len(data)>0:
+        # don't use value near 0 to be unambiguous
+        result = data[-1].z > 20
+    else: 
+        print("Orientation sensor had no data")
+
+    bhi.close()
+    print("Orientation result: {}".format(result))
+    return result
+    
 
 
 def clr(clr):
@@ -16,6 +34,7 @@ def clr(clr):
 
 def anim(fn):
     countDown()
+    orientation = checkOrientation()
     with open("./apps/lightpainter/anims/{}".format(fn)) as f:
         picdat = ujson.loads(f.read())
 
@@ -26,12 +45,23 @@ def anim(fn):
         while not buttons.read(buttons.TOP_RIGHT| buttons.BOTTOM_RIGHT | buttons.BOTTOM_LEFT): 
             for x in range(len(picdat)):
                 for y in range(11):
-                    leds.prep(10-y, clr(picdat[x][y]))
+                    if orientation:
+                        leds.prep(y, clr(picdat[x][y]))
+                    else:
+                        leds.prep(10-y, clr(picdat[x][y]))
                 leds.update()
                 utime.sleep(DELAY)
         leds.clear()
         leds.update()
         return 
+
+def showOrientationMsg():
+    with display.open() as d:
+        d.clear()
+        d.backlight(1)
+        d.print("Checking", posx=15, posy=15, font=2)
+        d.print("orientation...", posx=15, posy=30, font=2)
+        d.update()
 
 def showCountDownNbr(i):
     with display.open() as d:
