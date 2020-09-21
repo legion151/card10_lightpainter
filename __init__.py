@@ -97,8 +97,6 @@ def addPreview(disp, fn):
             for y in range(11):
                 disp.pixel(x,y+yOff,col=picdat[x][y])
 
-
-
 def main():
     fileList = os.listdir("./apps/lightpainter/anims")
     print(str(fileList))
