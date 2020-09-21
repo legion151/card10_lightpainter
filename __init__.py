@@ -8,7 +8,7 @@ import os
 import bhi160
 
 DELAY = 0.001 # time in seconds
-BRIGHTNESS=1
+BRIGHTNESS=8
 
 def checkOrientation():
     showOrientationMsg()
