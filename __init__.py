@@ -15,7 +15,7 @@ def clr(clr):
     return color.Color(clr[0], clr[1], clr[2])
 
 def anim(fn):
-    utime.sleep(1)
+    countDown()
     with open("./apps/lightpainter/anims/{}".format(fn)) as f:
         picdat = ujson.loads(f.read())
 
@@ -32,6 +32,20 @@ def anim(fn):
         leds.clear()
         leds.update()
         return 
+
+def showCountDownNbr(i):
+    with display.open() as d:
+        d.clear()
+        d.backlight(1)
+        d.print(str(i), posx=65, posy=25, font=4)
+        d.update()
+
+
+def countDown():
+    for i in range(3,0,-1):
+        showCountDownNbr(i)
+        utime.sleep(1)
+
 
 def showAnimEntry(fn):
     with display.open() as d:
