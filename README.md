@@ -25,5 +25,5 @@ The sensor is read after the countdown. You should be safe if you start and brin
 
 
 Example:
-(![fairy](fairy_photo.png?raw=true "Fairy")
+![fairy](fairy_photo.png?raw=true "Fairy")
 
